@@ -114,23 +114,28 @@
     </div>
   </div>
   <script>
-    /**
-     * Get the Querystring parameter by name
-     * @param {String} name The name of the parameter (e.g. 'logout')
-     * @return {String} The value of the parameter
-     */
-    var getParameterByName = function(name) {
-      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-      var results = regex.exec(location.search);
-      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    }
+    (function() {
+      /**
+       * Get the Querystring parameter by name
+       * @param {String} name The name of the parameter (e.g. 'logout')
+       * @return {String} The value of the parameter
+       */
+      var getParameterByName = function(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+      }
 
-    if (getParameterByName('logout') === 'true') {
-      var logoutSuccessful = document.querySelector('.sis-splash-container-logout-successful');
-      var classes = logoutSuccessful.className;
-      logoutSuccessful.className = classes.replace(/\bsis-splash-hidden\b/,'');
-    }
+      /**
+       * If we have a querystring 'logout=true', show the lock icon
+       */
+      if (getParameterByName('logout') === 'true') {
+        var logoutSuccessful = document.querySelector('.sis-splash-container-logout-successful');
+        var classes = logoutSuccessful.className;
+        logoutSuccessful.className = classes.replace(/\bsis-splash-hidden\b/,'');
+      }
+    })()
   </script>
 </body>
 </html>
