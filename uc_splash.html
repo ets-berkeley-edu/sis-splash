@@ -125,7 +125,7 @@
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
         var results = regex.exec(location.search);
         return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-      }
+      };
 
       /**
        * If we have a querystring 'logout=true', show the lock icon
@@ -135,7 +135,7 @@
         var classes = logoutSuccessful.className;
         logoutSuccessful.className = classes.replace(/\bsis-splash-hidden\b/,'');
       }
-    })()
+    })();
   </script>
 </body>
 </html>
