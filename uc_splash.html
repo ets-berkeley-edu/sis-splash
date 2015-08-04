@@ -61,7 +61,7 @@
       margin-bottom: 20px;
       text-rendering: optimizeLegibility;
     }
-    .sis-splash-container-logout-successful {
+    .sis-splash-container-message {
       background: #2b6281;
       color: #fff;
       margin: 0;
@@ -90,8 +90,11 @@
 <body>
   <div class="sis-splash-container">
     <h1>UC Berkeley Campus Solutions</h1>
-    <p class="sis-splash-container-logout-successful sis-splash-hidden">
+    <p class="sis-splash-container-message sis-splash-container-logout-successful sis-splash-hidden">
       Your logout was successful.
+    </p>
+    <p class="sis-splash-container-message sis-splash-container-expire-successful sis-splash-hidden">
+      For increased security on this site, connections are expired after 60 minutes of inactivity.
     </p>
     <div class="sis-splash-container-sub">
       <p>Sign in with your CalNet ID and passphrase.</p>
@@ -128,12 +131,23 @@
       };
 
       /**
-       * If we have a querystring 'logout=true', show the lock icon
+       * Show a message based on the query parameters
+       * @param {String} id The ID of the element you would like to show
        */
-      if (getParameterByName('logout') === 'true') {
-        var logoutSuccessful = document.querySelector('.sis-splash-container-logout-successful');
-        var classes = logoutSuccessful.className;
-        logoutSuccessful.className = classes.replace(/\bsis-splash-hidden\b/,'');
+      var showMessage = function(id) {
+        var successElement = document.querySelector('.sis-splash-container-' + id + '-successful');
+        var classes = successElement.className;
+        successElement.className = classes.replace(/\bsis-splash-hidden\b/,'');
+      };
+
+      // Querystring 'cmd=expire', shows the expire message
+      var cmdParameter = getParameterByName('cmd');
+      if (cmdParameter === 'expire') {
+        showMessage('expire');
+      }
+      // Querystring 'cmd=logout', shows the logout message
+      else if (cmdParameter === 'logout') {
+        showMessage('logout');
       }
     })();
   </script>
