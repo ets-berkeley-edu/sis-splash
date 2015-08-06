@@ -14,6 +14,12 @@
       margin: 0;
       padding: 0;
     }
+    html {
+      box-sizing: border-box;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
     body {
       background-color: #6e7a83;
       color: #474747;
@@ -69,12 +75,13 @@
     }
     .sis-splash-container-sub {
       padding: 25px 35px;
-      position: relative;
+    }
+    .sis-splash-container-sub .sis-splash-container-sub-left {
+      float: left;
+      max-width: 400px;
     }
     .sis-splash-container-sub .sis-splash-container-lock {
-      position: absolute;
-      right: 30px;
-      top: 30px;
+      float: right;
       width: 110px;
     }
     @media (max-width: 550px) {
@@ -84,6 +91,14 @@
     }
     .sis-splash-hidden {
       display: none;
+    }
+    .sis-splash-clearfix-container:before,
+    .sis-splash-clearfix-container:after {
+      content: " ";
+      display: table;
+    }
+    .sis-splash-clearfix-container:after {
+      clear: both;
     }
   </style>
 </head>
@@ -96,19 +111,21 @@
     <p class="sis-splash-container-message sis-splash-container-expire-successful sis-splash-hidden">
       For increased security on this site, connections are expired after 60 minutes of inactivity.
     </p>
-    <div class="sis-splash-container-sub">
-      <p id="sis-splash-sign-in-message">Sign in with your CalNet ID and passphrase.</p>
-      <p>
-        <a href="https://calnet.berkeley.edu/">Need a CalNet ID?</a>
-      </p>
+    <div class="sis-splash-container-sub sis-splash-clearfix-container">
+      <div class="sis-splash-container-sub-left">
+        <p id="sis-splash-sign-in-message">Sign in with your CalNet ID and passphrase.</p>
+        <p>
+          <a href="https://calnet.berkeley.edu/">Need a CalNet ID?</a>
+        </p>
 
-      <!-- // UC Berkeley - Dynamic URL for the form action -->
-      <form action="https://auth-test.berkeley.edu/cas/?renew=yes&amp;service=https://bfs92-qa12.is.berkeley.edu/cgi-bin/cas_qa92.pl" method="POST" target="_blank">
-      <!-- // UC Berkeley - Dynamic URL for the form action -->
-        <button type="submit" id="sis-splash-sign-in-button">
-          Sign in to Campus Solutions
-        </button>
-      </form>
+        <!-- // UC Berkeley - Dynamic URL for the form action -->
+        <form action="https://auth-test.berkeley.edu/cas/?renew=yes&amp;service=https://bfs92-qa12.is.berkeley.edu/cgi-bin/cas_qa92.pl" method="POST" target="_blank">
+        <!-- // UC Berkeley - Dynamic URL for the form action -->
+          <button type="submit" id="sis-splash-sign-in-button">
+            Sign in to Campus Solutions
+          </button>
+        </form>
+      </div>
 
       <!-- Lock icon -->
       <svg class="sis-splash-container-lock" xmlns="http://www.w3.org/2000/svg" viewBox="-229.9 343.6 93.9 114.7" enable-background="new -229.9 343.6 93.9 114.7">
