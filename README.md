@@ -9,6 +9,7 @@ You can try out the following options:
 * [Before login](http://christianv.github.io/sis-splash/uc_splash.html)
 * [After expire](http://christianv.github.io/sis-splash/uc_splash.html?cmd=expire)
 * [After logout](http://christianv.github.io/sis-splash/uc_splash.html?cmd=logout)
+* [When the account hasn't been created yet](http://christianv.github.io/sis-splash/uc_splash.html?errorCode=105)
 
 ## Screenshot
 

@@ -97,7 +97,7 @@
       For increased security on this site, connections are expired after 60 minutes of inactivity.
     </p>
     <div class="sis-splash-container-sub">
-      <p>Sign in with your CalNet ID and passphrase.</p>
+      <p id="sis-splash-sign-in-message">Sign in with your CalNet ID and passphrase.</p>
       <p>
         <a href="https://calnet.berkeley.edu/">Need a CalNet ID?</a>
       </p>
@@ -105,7 +105,7 @@
       <!-- // UC Berkeley - Dynamic URL for the form action -->
       <form action="https://auth-test.berkeley.edu/cas/?renew=yes&amp;service=https://bfs92-qa12.is.berkeley.edu/cgi-bin/cas_qa92.pl" method="POST" target="_blank">
       <!-- // UC Berkeley - Dynamic URL for the form action -->
-        <button type="submit">
+        <button type="submit" id="sis-splash-sign-in-button">
           Sign in to Campus Solutions
         </button>
       </form>
@@ -148,6 +148,11 @@
       // Querystring 'cmd=logout', shows the logout message
       else if (cmdParameter === 'logout') {
         showMessage('logout');
+      }
+
+      if (getParameterByName('errorCode') === '105') {
+        document.querySelector('#sis-splash-sign-in-message').innerHTML = 'Your account hasn\'t been created yet.<br /> Please try again later.';
+        document.querySelector('#sis-splash-sign-in-button').style.display = 'none';
       }
     })();
   </script>
