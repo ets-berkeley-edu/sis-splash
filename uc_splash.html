@@ -106,7 +106,7 @@
   <div class="sis-splash-container">
     <h1>UC Berkeley Campus Solutions</h1>
     <p class="sis-splash-container-message sis-splash-container-logout-successful sis-splash-hidden">
-      Your logout was successful.
+      Logging you out...
     </p>
     <p class="sis-splash-container-message sis-splash-container-expire-successful sis-splash-hidden">
       Your connection has expired.
@@ -118,9 +118,7 @@
           <a href="https://calnet.berkeley.edu/">Need a CalNet ID?</a>
         </p>
 
-        <!-- // UC Berkeley - Dynamic URL for the form action -->
-        <form action="https://auth-test.berkeley.edu/cas/?renew=yes&amp;service=https://bfs92-qa12.is.berkeley.edu/cgi-bin/cas_qa92.pl" method="POST">
-        <!-- // UC Berkeley - Dynamic URL for the form action -->
+        <form action="" method="POST" id="sis-splash-login-form">
           <button type="submit" id="sis-splash-sign-in-button">
             Sign in to Campus Solutions
           </button>
@@ -135,6 +133,13 @@
   </div>
   <script>
     (function() {
+
+      // UC Berkeley - Dynamic URLs
+      var urlCas = 'https://auth-test.berkeley.edu/cas';
+      var urlRoot = 'https://bcs-web-dev-03.is.berkeley.edu:8443/';
+      var urlLogin = 'https://bcs-web-dev-03.is.berkeley.edu:8443/bcsdev/signon.html';
+      var urlLogout = urlCas + '/logout?service=' + urlRoot;
+
       /**
        * Get the Querystring parameter by name
        * @param {String} name The name of the parameter (e.g. 'logout')
@@ -157,6 +162,21 @@
         successElement.className = classes.replace(/\bsis-splash-hidden\b/,'');
       };
 
+      /**
+       * Redirect to the CAS logout, which then will show the link to the main login page.
+       */
+      var redirectToLogout = function() {
+        document.location.replace(urlLogout);
+      };
+
+      /**
+       * Set the dynamic login URL
+       */
+      var setLoginUrl = function() {
+        var sisSplashLoginForm = document.getElementById('sis-splash-login-form');
+        sisSplashLoginForm.setAttribute('action', urlLogin);
+      };
+
       // Querystring 'cmd=expire', shows the expire message
       var cmdParameter = getParameterByName('cmd');
       if (cmdParameter === 'expire') {
@@ -165,12 +185,15 @@
       // Querystring 'cmd=logout', shows the logout message
       else if (cmdParameter === 'logout') {
         showMessage('logout');
+        redirectToLogout();
       }
 
       if (getParameterByName('errorCode') === '105') {
         document.querySelector('#sis-splash-sign-in-message').innerHTML = 'Your account hasn\'t been created yet.<br /> Please try again later.';
         document.querySelector('#sis-splash-sign-in-button').style.display = 'none';
       }
+
+      setLoginUrl();
     })();
   </script>
 </body>
