@@ -178,13 +178,12 @@
       };
 
 
+      var redirectUrl = getParameterByName('redirect_url');
       // Querystring 'cmd=expire', shows the expire message
       var cmdParameter = getParameterByName('cmd');
       if (cmdParameter === 'expire') {
         showMessage('expire');
       }
-
-      var redirectUrl = getParameterByName('redirect_url');
       // Querystring 'cmd=logout', shows the logout message
       else if (cmdParameter === 'logout' && !redirectUrl) {
         showMessage('logout');
