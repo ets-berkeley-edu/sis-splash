@@ -157,6 +157,17 @@
         successElement.className = classes.replace(/\bsis-splash-hidden\b/,'');
       };
 
+      // Redirect to another page
+      // We need to do this when we do a logout from CalCentral:
+      //  - Logout from CalCentral
+      //  - Logout from CAS
+      //  - Logout from PS
+      //  - Redirect to CalCentral
+      var redirectUrl = getParameterByName('redirect_url');
+      if (redirectUrl) {
+        window.location.replace(redirectUrl);
+      }
+
       // Querystring 'cmd=expire', shows the expire message
       var cmdParameter = getParameterByName('cmd');
       if (cmdParameter === 'expire') {
