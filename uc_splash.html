@@ -196,9 +196,7 @@
         //  - Logout from CAS
         //  - Logout from PS
         //  - Redirect to CalCentral
-        if (redirectUrl) {
-          window.location.replace(redirectUrl);
-        }
+        window.location.replace(redirectUrl);
       }
 
       if (getParameterByName('errorCode') === '105') {
