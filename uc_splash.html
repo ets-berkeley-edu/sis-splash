@@ -135,7 +135,7 @@
     (function() {
 
       // UC Berkeley - Dynamic URLs
-      var urlCas = 'https://auth-test.berkeley.edu/cas';
+      var urlCas = 'https://cas-d3.calnet.berkeley.edu/cas';
       var urlRoot = 'https://bcs-web-dev-03.is.berkeley.edu:8443/';
       var urlLogin = 'https://bcs-web-dev-03.is.berkeley.edu:8443/bcsdev/signon.html';
       var urlLogout = urlCas + '/logout?service=' + urlRoot;
@@ -177,6 +177,59 @@
         sisSplashLoginForm.setAttribute('action', urlLogin);
       };
 
+      /**
+       * Set a specific cookie
+       */
+      var setCookie = function(name, value, expires, path, domain, secure) {
+      	var cookieStr = name + '=' + escape(value) + '; ';
+
+      	if (expires) {
+      		cookieStr += 'expires=' + expires + '; ';
+      	}
+      	if (path) {
+      		cookieStr += 'path=' + path + '; ';
+      	}
+      	if (domain) {
+      		cookieStr += 'domain=' + domain + '; ';
+      	}
+      	if (secure) {
+      		cookieStr += 'secure; ';
+      	}
+
+      	document.cookie = cookieStr;
+      }
+
+      /**
+       * Let's delete all the CS cookies
+       */
+      var deleteAllCSCookies = function() {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i];
+          var eqPos = cookie.indexOf('=');
+          var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie = name + '=; path=/; domain=.is.berkeley.edu; Secure';
+        }
+      }
+
+      /**
+       * Just to be extra safe, we're mimicking CS behavior and also upding the cookies accordingly.
+       */
+      var setCSCookies = function() {
+        setCookie('PS_TOKEN', '', '0', '/', '.is.berkeley.edu', 'Secure');
+        setCookie('PS_LOGINLIST', '-1', '0', '/', '.is.berkeley.edu', 'Secure');
+        setCookie('PS_TOKENEXPIRE', '-1',  '0', '/', '.is.berkeley.edu', 'Secure');
+        setCookie('ps_theme', '', '0', '/', '.is.berkeley.edu', 'Secure');
+        setCookie('psback', '', '0', '/', '.is.berkeley.edu', 'Secure');
+      };
+
+      /**
+       * Shiva doesn't like cookies, make sure we remove them when doing a logout & redirect
+       */
+      var updateCSCookies = function() {
+        deleteAllCSCookies();
+        setCSCookies();
+      };
 
       var redirectUrl = getParameterByName('redirect_url');
       // Querystring 'cmd=expire', shows the expire message
@@ -190,6 +243,7 @@
         redirectToLogout();
       // When we do have a redirect_url parameter, use that instead of doing the CAS logout
       } else if (cmdParameter === 'logout' && redirectUrl) {
+        updateCSCookies();
         // Redirect to another page
         // We need to do this when we do a logout from CalCentral:
         //  - Logout from CalCentral
