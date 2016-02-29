@@ -134,8 +134,11 @@
   <script>
     (function() {
 
+      // Whether this is a web or internal server
+      var isWebServer = true;
       // UC Berkeley - Dynamic URLs
       var urlCas = 'https://cas-d3.calnet.berkeley.edu/cas';
+      var urlCalCentral = 'https://calcentral-sis-dev.berkeley.edu/';
       var urlRoot = 'https://bcs-web-dev-03.is.berkeley.edu:8443/';
       var urlLogin = 'https://bcs-web-dev-03.is.berkeley.edu:8443/bcsdev/signon.html';
       var urlLogout = urlCas + '/logout?service=' + urlRoot;
@@ -232,10 +235,16 @@
       };
 
       var redirectUrl = getParameterByName('redirect_url');
-      // Querystring 'cmd=expire', shows the expire message
+      // Querystring 'cmd=expire'
+      //  - On a web server: redirects to the CalCentral instance
+      //  - On an internal server: shows the expire message
       var cmdParameter = getParameterByName('cmd');
       if (cmdParameter === 'expire') {
-        showMessage('expire');
+        if (isWebServer) {
+          window.location.replace(urlCalCentral);
+        } else {
+          showMessage('expire');
+        }
       }
       // Querystring 'cmd=logout', shows the logout message
       else if (cmdParameter === 'logout' && !redirectUrl) {
